@@ -1,0 +1,4 @@
+baseURL = 'https://stej.github.io'
+languageCode = 'en-us'
+title = 'Random silence'
+theme = 'ananke'
