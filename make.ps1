@@ -4,6 +4,7 @@ cd $root
 '404.html', 'index.html', 'index.xml', 'sitemap.xml' | Remove-Item 
 
 cd $root\src\stejblog
+Remove-Item public -recurse -force
 hugo -D
 cd public
 gci | Copy-Item -dest ..\..\.. -recurse
