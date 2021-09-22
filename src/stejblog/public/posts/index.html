@@ -101,8 +101,25 @@
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="/posts/20210921_powershellandlineendings/" class="link black dim">
+        PowerShell and `r`n
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      In short:
+ CR is the escape character \r (carriage return, 0x0D, 13 in decimal) LF is the escape character \n (line feed, 0x0A, 10 in decimal)  First let&rsquo;s make two files for testing. One file with CRLF and one with LF.
+PS&gt; mkdir c:\temp\ -EA SilentlyContinuePS&gt; cd c:\tempPS&gt; ([byte[]][char[]]&quot;some&quot;) + ([byte[]] (13,10)) + ([byte[]][char[]]&quot;testing&quot;) | Set-Content fileCrLf.txt -asBytePS&gt; ([byte[]][char[]]&quot;some&quot;) + [byte]10 + ([byte[]][char[]]&quot;testing&quot;) | Set-Content fileLf.
+    </div>
+  </div>
+</div>
+</div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="/posts/20210921_first/" class="link black dim">
-        20210921_first
+        First post
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">

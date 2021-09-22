@@ -6,9 +6,20 @@
     <description>Recent content on Random silence</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Sep 2021 20:30:42 +0200</lastBuildDate><atom:link href="https://stej.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Sep 2021 21:39:38 +0200</lastBuildDate><atom:link href="https://stej.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>20210921_first</title>
+      <title>PowerShell and `r`n</title>
+      <link>https://stej.github.io/posts/20210921_powershellandlineendings/</link>
+      <pubDate>Tue, 21 Sep 2021 21:39:38 +0200</pubDate>
+      
+      <guid>https://stej.github.io/posts/20210921_powershellandlineendings/</guid>
+      <description>In short:
+ CR is the escape character \r (carriage return, 0x0D, 13 in decimal) LF is the escape character \n (line feed, 0x0A, 10 in decimal)  First let&amp;rsquo;s make two files for testing. One file with CRLF and one with LF.
+PS&amp;gt; mkdir c:\temp\ -EA SilentlyContinuePS&amp;gt; cd c:\tempPS&amp;gt; ([byte[]][char[]]&amp;quot;some&amp;quot;) + ([byte[]] (13,10)) + ([byte[]][char[]]&amp;quot;testing&amp;quot;) | Set-Content fileCrLf.txt -asBytePS&amp;gt; ([byte[]][char[]]&amp;quot;some&amp;quot;) + [byte]10 + ([byte[]][char[]]&amp;quot;testing&amp;quot;) | Set-Content fileLf.</description>
+    </item>
+    
+    <item>
+      <title>First post</title>
       <link>https://stej.github.io/posts/20210921_first/</link>
       <pubDate>Tue, 21 Sep 2021 20:30:42 +0200</pubDate>
       
