@@ -2,3 +2,13 @@ baseURL = 'https://stej.github.io'
 languageCode = 'en-us'
 title = 'Random silence'
 theme = 'ananke'
+
+paginate =  100
+defaultContentLanguage = "en"
+enableEmoji = true
+# Set the unicode character used for the "return" link in page footnotes.
+footnotereturnlinkcontents = "↩"
+languageCode = "en-us"
+
+[social]
+twitter = "stejcz"
