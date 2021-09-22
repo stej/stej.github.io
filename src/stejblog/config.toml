@@ -8,7 +8,6 @@ defaultContentLanguage = "en"
 enableEmoji = true
 # Set the unicode character used for the "return" link in page footnotes.
 footnotereturnlinkcontents = "↩"
-languageCode = "en-us"
 
 [social]
 twitter = "stejcz"

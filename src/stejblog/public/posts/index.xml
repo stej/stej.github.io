@@ -6,7 +6,18 @@
     <description>Recent content in Posts on Random silence</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Sep 2021 21:39:38 +0200</lastBuildDate><atom:link href="https://stej.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 22 Sep 2021 16:54:23 +0200</lastBuildDate><atom:link href="https://stej.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PowerShell and some $null-s and emptiness</title>
+      <link>https://stej.github.io/posts/20210922_powershellandnull/</link>
+      <pubDate>Wed, 22 Sep 2021 16:54:23 +0200</pubDate>
+      
+      <guid>https://stej.github.io/posts/20210922_powershellandnull/</guid>
+      <description>Dealing with $nulls in PowerShell is quite tricky sometimes. Or better - it was. Has that changed?
+Let&amp;rsquo;s create some a helper function first that can describe the passed object. Simple, but good enough for this blog post.
+function dumpobj { param($obj) function dumpit { param($o, $indent) if ($null -eq $o) { Write-Host (&amp;quot; &amp;quot; * $indent) &#39;null&#39; } elseif ($o -is [array]) { Write-Host (&amp;quot; &amp;quot; * $indent) &#39;Array: count=&#39; $o.</description>
+    </item>
+    
     <item>
       <title>PowerShell and `r`n</title>
       <link>https://stej.github.io/posts/20210921_powershellandlineendings/</link>

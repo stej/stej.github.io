@@ -40,6 +40,7 @@
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@stejcz"/>
 
 	
   </head>
@@ -96,6 +97,23 @@
   <article class="pa3 pa4-ns nested-copy-line-height nested-img">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
     <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/20210922_powershellandnull/" class="link black dim">
+        PowerShell and some $null-s and emptiness
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Dealing with $nulls in PowerShell is quite tricky sometimes. Or better - it was. Has that changed?
+Let&rsquo;s create some a helper function first that can describe the passed object. Simple, but good enough for this blog post.
+function dumpobj { param($obj) function dumpit { param($o, $indent) if ($null -eq $o) { Write-Host (&quot; &quot; * $indent) 'null' } elseif ($o -is [array]) { Write-Host (&quot; &quot; * $indent) 'Array: count=' $o.
+    </div>
+  </div>
+</div>
+</div>
       
         <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
