@@ -5,6 +5,8 @@ cd $root
 
 cd $root\src\stejblog
 Remove-Item public -recurse -force
+
+$env:HUGO_ENV = "production" # needed, because this env variable is checked inside themes\ananke\layouts\_default\baseof.html and is used when rendering ROBOTS
 hugo -D
 cd public
 gci | Copy-Item -dest ..\..\.. -recurse
