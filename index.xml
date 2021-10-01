@@ -6,7 +6,17 @@
     <description>Recent content on Random silence</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Sep 2021 16:54:23 +0200</lastBuildDate><atom:link href="https://stej.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Oct 2021 19:28:55 +0200</lastBuildDate><atom:link href="https://stej.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Oh-my-posh installed</title>
+      <link>https://stej.github.io/posts/20211001_ohmyposh/</link>
+      <pubDate>Fri, 01 Oct 2021 19:28:55 +0200</pubDate>
+      
+      <guid>https://stej.github.io/posts/20211001_ohmyposh/</guid>
+      <description>It&amp;rsquo;s been a while when I saw a blog post My Ultimate PowerShell prompt with Oh My Posh and the Windows Terminal. You know, it&amp;rsquo;s pretty comfortable to let the link open in a tab and close it after several weeks/months. Not now. I spend quite some tim in PowerShell console and I customized my prompt in the past, so I wanted to give it a try.
+The installation is pretty straightforward.</description>
+    </item>
+    
     <item>
       <title>PowerShell and some $null-s and emptiness</title>
       <link>https://stej.github.io/posts/20210922_powershellandnull/</link>
