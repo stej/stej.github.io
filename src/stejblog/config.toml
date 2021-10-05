@@ -1,14 +1,44 @@
 baseURL = 'https://stej.github.io'
 languageCode = 'en-us'
-title = 'Random silence'
-theme = 'ananke'
+title = 'Random silence. Random thoughts here. Random content. Random silence again. You know what pudding is?'
+theme = 'mini'
 
 paginate =  100
 defaultContentLanguage = "en"
 enableEmoji = true
 # Set the unicode character used for the "return" link in page footnotes.
 footnotereturnlinkcontents = "↩"
-enableRobotsTXT = "true"
+enableRobotsTXT = true
 
 [social]
-twitter = "stejcz"
+twitter = "https://twitter.com/stejcz"
+
+# Hugo Configure Markup
+# More info= https://gohugo.io/getting-started/configuration-markup#
+[markup]
+  [markup.highlight]
+    guessSyntax = true
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel= 2
+    
+[params]
+# To hidden powerBy message in the page footer, you could set: `showPowerBy: false`, default is `true`
+showPowerBy = false
+author = "Pepa Štefan"
+bio = "!"
+description = "Just my blog"
+enableRSS = true
+# To enable comments, you may need to set `disqusShortname`
+enableComments = false
+# To enable comments, you may need to set `googleAnalytics`
+enableGoogleAnalytics = false
+# To enable table of content, you could set `showToc = true`, default is `false`
+showToc = false
+# To hidden post summary in home page, you could set `hiddenPostSummaryInHomePage = true`, default is `false`
+hiddenPostSummaryInHomePage = true
+
+# hide about + tags section
+about = " "
+tags = " "

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Random silence</title>
+    <title>Random silence. Random thoughts here. Random content. Random silence again. You know what pudding is?</title>
     <link>https://stej.github.io/</link>
-    <description>Recent content on Random silence</description>
+    <description>Recent content on Random silence. Random thoughts here. Random content. Random silence again. You know what pudding is?</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 01 Oct 2021 19:28:55 +0200</lastBuildDate><atom:link href="https://stej.github.io/index.xml" rel="self" type="application/rss+xml" />
@@ -25,7 +25,7 @@ The installation is pretty straightforward.</description>
       <guid>https://stej.github.io/posts/20210922_powershellandnull/</guid>
       <description>Dealing with $nulls in PowerShell is quite tricky sometimes. Or better - it was. Has that changed?
 Let&amp;rsquo;s create some a helper function first that can describe the passed object. Simple, but good enough for this blog post.
-function dumpobj { param($obj) function dumpit { param($o, $indent) if ($null -eq $o) { Write-Host (&amp;quot; &amp;quot; * $indent) &#39;null&#39; } elseif ($o -is [array]) { Write-Host (&amp;quot; &amp;quot; * $indent) &#39;Array: count=&#39; $o.</description>
+function dumpobj { param($obj) function dumpit { param($o, $indent) if ($null -eq $o) { Write-Host (&amp;#34; &amp;#34; * $indent) &amp;#39;null&amp;#39; } elseif ($o -is [array]) { Write-Host (&amp;#34; &amp;#34; * $indent) &amp;#39;Array: count=&amp;#39; $o.</description>
     </item>
     
     <item>
@@ -36,7 +36,7 @@ function dumpobj { param($obj) function dumpit { param($o, $indent) if ($null -e
       <guid>https://stej.github.io/posts/20210921_powershellandlineendings/</guid>
       <description>In short:
  CR is the escape character \r (carriage return, 0x0D, 13 in decimal) LF is the escape character \n (line feed, 0x0A, 10 in decimal)  First let&amp;rsquo;s make two files for testing. One file with CRLF and one with LF.
-PS&amp;gt; mkdir c:\temp\ -EA SilentlyContinuePS&amp;gt; cd c:\tempPS&amp;gt; ([byte[]][char[]]&amp;quot;some&amp;quot;) + ([byte[]] (13,10)) + ([byte[]][char[]]&amp;quot;testing&amp;quot;) | Set-Content fileCrLf.txt -asBytePS&amp;gt; ([byte[]][char[]]&amp;quot;some&amp;quot;) + [byte]10 + ([byte[]][char[]]&amp;quot;testing&amp;quot;) | Set-Content fileLf.</description>
+PS&amp;gt; mkdir c:\temp\ -EA SilentlyContinue PS&amp;gt; cd c:\temp PS&amp;gt; ([byte[]][char[]]&amp;#34;some&amp;#34;) + ([byte[]] (13,10)) + ([byte[]][char[]]&amp;#34;testing&amp;#34;) | Set-Content fileCrLf.txt -asByte PS&amp;gt; ([byte[]][char[]]&amp;#34;some&amp;#34;) + [byte]10 + ([byte[]][char[]]&amp;#34;testing&amp;#34;) | Set-Content fileLf.</description>
     </item>
     
     <item>
