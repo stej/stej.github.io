@@ -10,16 +10,17 @@ In short:
 - `LF` is the escape character `\n` (line feed, `0x0A`, 10 in decimal)
 
 First let's make two files for testing. One file with `CRLF` and one with `LF`.
-```
-PS> mkdir c:\temp\ -EA SilentlyContinue
-PS> cd c:\temp
-PS> ([byte[]][char[]]"some") + ([byte[]] (13,10)) + ([byte[]][char[]]"testing") | Set-Content fileCrLf.txt -asByte
-PS> ([byte[]][char[]]"some") + [byte]10 + ([byte[]][char[]]"testing") | Set-Content fileLf.txt -asByte
+
+```PowerShell
+mkdir c:\temp\ -EA SilentlyContinue
+cd c:\temp
+([byte[]][char[]]"some") + ([byte[]] (13,10)) + ([byte[]][char[]]"testing") | Set-Content fileCrLf.txt -asByte
+([byte[]][char[]]"some") + [byte]10 + ([byte[]][char[]]"testing") | Set-Content fileLf.txt -asByte
 ```
 
 Is there any difference when reading the file? No. PowerShell can read the files no matter the line endings.
 
-```
+```PowerShell
 PS> $crlf = Get-Content fileCrLf.txt
 PS> $lf = Get-Content fileLf.txt
 
@@ -31,7 +32,7 @@ PS> $hexCrLf -eq $hexLf
 
 And what about reading raw? Of course the bytes are left as they are.
 
-```
+```PowerShell
 PS> $crlf = Get-Content fileCrLf.txt -raw
 PS> $lf = Get-Content fileLf.txt -raw
 
@@ -50,7 +51,7 @@ PS> $hexLf
 ## Special chars
 First prepare some testing data:
 
-```
+```PowerShell
 PS> [int[]][char[]]"`r`n"
 # 13
 # 10
@@ -61,7 +62,7 @@ PS> "some`r`ntesting" | Set-Content fileRN.txt
 
 Now what is produced when a string is construected with some escape sequence?
 
-```
+```PowerShell
 PS> Format-Hex fileN.txt
 #          Offset Bytes                                           Ascii
 #                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -78,7 +79,7 @@ PS> Format-Hex fileRN.txt
 That means that if you make a content of the file manually, use ``"`r`n" ``. That's when speaking about Windows, because `Set-Content` uses `CRLF`. So - be nice and produce files with consistent line endings. 
 
 If you need to know proper line endings no matter whether you are on Windows or Linux, just use `[Environment]::NewLine`
-```
+```PowerShell
 # Linux:
 PS> [int[]][char[]] [Environment]::NewLine
 # 10
@@ -95,7 +96,7 @@ PowerShell runs on .NET, right. But that escape character `\n` doesn't work here
 
 *Note: `.Split()` here is just a method on `String`
 
-```
+```PowerShell
 PS> (Get-Content fileRN.txt -raw).Split("\r\n") | Format-Hex
 #          Offset Bytes                                           Ascii
 #                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -120,7 +121,7 @@ PS> (Get-Content fileRN.txt -raw).Split("`r`n") | Format-Hex
 
 No magic here. Works as expected. That `` `n`` is just a one concrete char. That's it.
 
-```
+```PowerShell
 PS> (Get-Content fileRN.txt -raw) -split "`r`n" | Format-Hex
 #           Offset Bytes                                           Ascii
 #                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -144,7 +145,7 @@ PS> (Get-Content fileRN.txt -raw) -split "`n" | Format-Hex
 
 The same applies for `\r\n` used as regex literals. They just work.
 
-```
+```PowerShell
 PS> (Get-Content fileRN.txt -raw) -split "\r\n" | Format-Hex
 #          Offset Bytes                                           Ascii
 #                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F

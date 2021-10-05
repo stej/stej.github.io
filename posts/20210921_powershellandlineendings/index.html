@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1">
 <meta name="description" content="In short:
  CR is the escape character \r (carriage return, 0x0D, 13 in decimal) LF is the escape character \n (line feed, 0x0A, 10 in decimal)  First let&rsquo;s make two files for testing. One file with CRLF and one with LF.
-PS&gt; mkdir c:\temp\ -EA SilentlyContinue PS&gt; cd c:\temp PS&gt; ([byte[]][char[]]&#34;some&#34;) &#43; ([byte[]] (13,10)) &#43; ([byte[]][char[]]&#34;testing&#34;) | Set-Content fileCrLf.txt -asByte PS&gt; ([byte[]][char[]]&#34;some&#34;) &#43; [byte]10 &#43; ([byte[]][char[]]&#34;testing&#34;) | Set-Content fileLf.">
+mkdir c:\temp\ -EA SilentlyContinue cd c:\temp ([byte[]][char[]]&#34;some&#34;) &#43; ([byte[]] (13,10)) &#43; ([byte[]][char[]]&#34;testing&#34;) | Set-Content fileCrLf.txt -asByte ([byte[]][char[]]&#34;some&#34;) &#43; [byte]10 &#43; ([byte[]][char[]]&#34;testing&#34;) | Set-Content fileLf.txt -asByte Is there any difference when reading the file?">
 <meta name="generator" content="Hugo 0.88.1" />
 
 
@@ -58,7 +58,7 @@ PS&gt; mkdir c:\temp\ -EA SilentlyContinue PS&gt; cd c:\temp PS&gt; ([byte[]][ch
           ·
         </span>
         <span>
-          889 words
+          885 words
         </span>
         <span class="split">
           ·
@@ -79,119 +79,119 @@ PS&gt; mkdir c:\temp\ -EA SilentlyContinue PS&gt; cd c:\temp PS&gt; ([byte[]][ch
 <li><code>LF</code> is the escape character <code>\n</code> (line feed, <code>0x0A</code>, 10 in decimal)</li>
 </ul>
 <p>First let&rsquo;s make two files for testing. One file with <code>CRLF</code> and one with <code>LF</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">PS&gt; mkdir c:\temp\ -EA SilentlyContinue
-PS&gt; cd c:\temp
-PS&gt; ([byte[]][char[]]&#34;some&#34;) + ([byte[]] (13,10)) + ([byte[]][char[]]&#34;testing&#34;) | Set-Content fileCrLf.txt -asByte
-PS&gt; ([byte[]][char[]]&#34;some&#34;) + [byte]10 + ([byte[]][char[]]&#34;testing&#34;) | Set-Content fileLf.txt -asByte
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">mkdir c:\temp\ -EA SilentlyContinue
+cd c:\temp
+(<span style="color:#66d9ef">[byte[]][char[]]</span><span style="color:#e6db74">&#34;some&#34;</span>) + (<span style="color:#66d9ef">[byte[]]</span> (13,10)) + (<span style="color:#66d9ef">[byte[]][char[]]</span><span style="color:#e6db74">&#34;testing&#34;</span>) | Set-Content fileCrLf.txt -asByte
+(<span style="color:#66d9ef">[byte[]][char[]]</span><span style="color:#e6db74">&#34;some&#34;</span>) + <span style="color:#66d9ef">[byte]</span>10 + (<span style="color:#66d9ef">[byte[]][char[]]</span><span style="color:#e6db74">&#34;testing&#34;</span>) | Set-Content fileLf.txt -asByte
 </code></pre></div><p>Is there any difference when reading the file? No. PowerShell can read the files no matter the line endings.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">PS&gt; $crlf = Get-Content fileCrLf.txt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">PS&gt; $crlf = Get-Content fileCrLf.txt
 PS&gt; $lf = Get-Content fileLf.txt
 
-PS&gt; $hexCrLf = [Convert]::ToHexString(([byte[]] [char[]] ($crlf -join &#39;|&#39;))) 
-PS&gt; $hexLf = [Convert]::ToHexString(([byte[]] [char[]] ($lf -join &#39;|&#39;)))
-PS&gt; $hexCrLf -eq $hexLf
-# true
+PS&gt; $hexCrLf = <span style="color:#66d9ef">[Convert]</span>::ToHexString((<span style="color:#66d9ef">[byte[]] [char[]]</span> ($crlf -join <span style="color:#e6db74">&#39;|&#39;</span>))) 
+PS&gt; $hexLf = <span style="color:#66d9ef">[Convert]</span>::ToHexString((<span style="color:#66d9ef">[byte[]] [char[]]</span> ($lf -join <span style="color:#e6db74">&#39;|&#39;</span>)))
+PS&gt; $hexCrLf <span style="color:#f92672">-eq</span> $hexLf
+<span style="color:#75715e"># true</span>
 </code></pre></div><p>And what about reading raw? Of course the bytes are left as they are.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">PS&gt; $crlf = Get-Content fileCrLf.txt -raw
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">PS&gt; $crlf = Get-Content fileCrLf.txt -raw
 PS&gt; $lf = Get-Content fileLf.txt -raw
 
-PS&gt; $hexCrLf = [Convert]::ToHexString(([byte[]] [char[]] $crlf))
-PS&gt; $hexLf = [Convert]::ToHexString(([byte[]] [char[]] $lf))
-PS&gt; $hexCrLf -eq $hexLf
-# false
+PS&gt; $hexCrLf = <span style="color:#66d9ef">[Convert]</span>::ToHexString((<span style="color:#66d9ef">[byte[]] [char[]]</span> $crlf))
+PS&gt; $hexLf = <span style="color:#66d9ef">[Convert]</span>::ToHexString((<span style="color:#66d9ef">[byte[]] [char[]]</span> $lf))
+PS&gt; $hexCrLf <span style="color:#f92672">-eq</span> $hexLf
+<span style="color:#75715e"># false</span>
 
 PS&gt; $hexCrLf
-# 736F6D650D0A74657374696E67
-#       --^^  extra chars here
+<span style="color:#75715e"># 736F6D650D0A74657374696E67</span>
+<span style="color:#75715e">#       --^^  extra chars here</span>
 PS&gt; $hexLf
-# 736F6D650A74657374696E67
+<span style="color:#75715e"># 736F6D650A74657374696E67</span>
 </code></pre></div><h2 id="special-chars">Special chars <a href="#special-chars" class="anchor">🔗</a></h2><p>First prepare some testing data:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">PS<span style="color:#f92672">&gt;</span> [<span style="color:#66d9ef">int</span>[]][<span style="color:#66d9ef">char</span>[]]<span style="color:#e6db74">&#34;`r`n&#34;</span>
-<span style="color:#75715e"># 13
-</span><span style="color:#75715e"># 10
-</span><span style="color:#75715e"></span>
-PS<span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#34;some`ntesting&#34;</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Set</span><span style="color:#f92672">-</span>Content fileN.txt
-PS<span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#34;some`r`ntesting&#34;</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Set</span><span style="color:#f92672">-</span>Content fileRN.txt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">PS&gt; <span style="color:#66d9ef">[int[]][char[]]</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`r`n</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e"># 13</span>
+<span style="color:#75715e"># 10</span>
+
+PS&gt; <span style="color:#e6db74">&#34;some</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">testing&#34;</span> | Set-Content fileN.txt
+PS&gt; <span style="color:#e6db74">&#34;some</span><span style="color:#ae81ff">`r`n</span><span style="color:#e6db74">testing&#34;</span> | Set-Content fileRN.txt
 </code></pre></div><p>Now what is produced when a string is construected with some escape sequence?</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">PS&gt; Format-Hex fileN.txt
-#          Offset Bytes                                           Ascii
-#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-#          ------ ----------------------------------------------- -----
-#0000000000000000 73 6F 6D 65 0A 74 65 73 74 69 6E 67 0D 0A       some�testing��
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">PS&gt; Format-Hex fileN.txt
+<span style="color:#75715e">#          Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 73 6F 6D 65 0A 74 65 73 74 69 6E 67 0D 0A       some�testing��</span>
 
 PS&gt; Format-Hex fileRN.txt
-#          Offset Bytes                                           Ascii
-#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-#          ------ ----------------------------------------------- -----
-#0000000000000000 73 6F 6D 65 0D 0A 74 65 73 74 69 6E 67 0D 0A    some��testing��
+<span style="color:#75715e">#          Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 73 6F 6D 65 0D 0A 74 65 73 74 69 6E 67 0D 0A    some��testing��</span>
 </code></pre></div><p>That means that if you make a content of the file manually, use <code>&quot;`r`n&quot; </code>. That&rsquo;s when speaking about Windows, because <code>Set-Content</code> uses <code>CRLF</code>. So - be nice and produce files with consistent line endings.</p>
 <p>If you need to know proper line endings no matter whether you are on Windows or Linux, just use <code>[Environment]::NewLine</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback"># Linux:
-PS&gt; [int[]][char[]] [Environment]::NewLine
-# 10
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell"><span style="color:#75715e"># Linux:</span>
+PS&gt; <span style="color:#66d9ef">[int[]][char[]] [Environment]</span>::NewLine
+<span style="color:#75715e"># 10</span>
 
-# Windows:
-PS&gt; [int[]][char[]] [Environment]::NewLine
-# 13
-# 10
+<span style="color:#75715e"># Windows:</span>
+PS&gt; <span style="color:#66d9ef">[int[]][char[]] [Environment]</span>::NewLine
+<span style="color:#75715e"># 13</span>
+<span style="color:#75715e"># 10</span>
 </code></pre></div><h3 id="net-n">.NET <code>\n</code> <a href="#net-n" class="anchor">🔗</a></h3><p>PowerShell runs on .NET, right. But that escape character <code>\n</code> doesn&rsquo;t work here. When coding in PowerShell, just replace that with backtick &ndash; ` <code>n</code>.</p>
 <p>*Note: <code>.Split()</code> here is just a method on <code>String</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">PS<span style="color:#f92672">&gt;</span> (Get<span style="color:#f92672">-</span>Content fileRN.txt <span style="color:#f92672">-</span>raw).<span style="color:#a6e22e">Split</span>(<span style="color:#e6db74">&#34;\r\n&#34;</span>) <span style="color:#f92672">|</span> Format<span style="color:#f92672">-</span>Hex
-<span style="color:#75715e">#          Offset Bytes                                           Ascii
-</span><span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-</span><span style="color:#75715e">#          ------ ----------------------------------------------- -----
-</span><span style="color:#75715e">#0000000000000000 73 6F 6D 65 0D 0A 74 65 73 74 69 6E 67 0D 0A    some��testing��
-</span><span style="color:#75715e"></span>
-PS<span style="color:#f92672">&gt;</span> (Get<span style="color:#f92672">-</span>Content fileRN.txt <span style="color:#f92672">-</span>raw).<span style="color:#a6e22e">Split</span>(<span style="color:#e6db74">&#34;`r`n&#34;</span>) <span style="color:#f92672">|</span> Format<span style="color:#f92672">-</span>Hex
-<span style="color:#75715e">#          Offset Bytes                                           Ascii
-</span><span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-</span><span style="color:#75715e">#          ------ ----------------------------------------------- -----
-</span><span style="color:#75715e">#0000000000000000 73 6F 6D 65                                     some
-</span><span style="color:#75715e">#          Offset Bytes                                           Ascii
-</span><span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-</span><span style="color:#75715e">#          ------ ----------------------------------------------- -----
-</span><span style="color:#75715e">#0000000000000000 74 65 73 74 69 6E 67                            testing
-</span></code></pre></div><h2 id="regexes-yeeeeea">Regexes, yeeeeea <a href="#regexes-yeeeeea" class="anchor">🔗</a></h2><p><em>Operator <code>-split</code> uses regexes under the hood. Don&rsquo;t forget that.</em></p>
-<p>No magic here. Works as expected. That <code> `n</code> is just a one concrete char. That&rsquo;s it.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">PS<span style="color:#f92672">&gt;</span> (Get<span style="color:#f92672">-</span>Content fileRN.txt <span style="color:#f92672">-</span>raw) <span style="color:#f92672">-</span>split <span style="color:#e6db74">&#34;`r`n&#34;</span> <span style="color:#f92672">|</span> Format<span style="color:#f92672">-</span>Hex
-<span style="color:#75715e">#           Offset Bytes                                           Ascii
-</span><span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-</span><span style="color:#75715e">#          ------ ----------------------------------------------- -----
-</span><span style="color:#75715e">#0000000000000000 73 6F 6D 65                                     some
-</span><span style="color:#75715e">#          Offset Bytes                                           Ascii
-</span><span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-</span><span style="color:#75715e">#          ------ ----------------------------------------------- -----
-</span><span style="color:#75715e">#0000000000000000 74 65 73 74 69 6E 67                            testing
-</span><span style="color:#75715e"></span>
-PS<span style="color:#f92672">&gt;</span> (Get<span style="color:#f92672">-</span>Content fileRN.txt <span style="color:#f92672">-</span>raw) <span style="color:#f92672">-</span>split <span style="color:#e6db74">&#34;`n&#34;</span> <span style="color:#f92672">|</span> Format<span style="color:#f92672">-</span>Hex
-<span style="color:#75715e">#          Offset Bytes                                           Ascii
-</span><span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-</span><span style="color:#75715e">#          ------ ----------------------------------------------- -----
-</span><span style="color:#75715e">#0000000000000000 73 6F 6D 65 0D                                  some�        # that `r is still there
-</span><span style="color:#75715e">#         Offset Bytes                                           Ascii
-</span><span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-</span><span style="color:#75715e">#          ------ ----------------------------------------------- -----
-</span><span style="color:#75715e">#0000000000000000 74 65 73 74 69 6E 67 0D                         testing�     # that `r is still there
-</span></code></pre></div><p>The same applies for <code>\r\n</code> used as regex literals. They just work.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">PS&gt; (Get-Content fileRN.txt -raw) -split &#34;\r\n&#34; | Format-Hex
-#          Offset Bytes                                           Ascii
-#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-#          ------ ----------------------------------------------- -----
-#0000000000000000 73 6F 6D 65                                     some
-#         Offset Bytes                                           Ascii
-#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-#          ------ ----------------------------------------------- -----
-#0000000000000000 74 65 73 74 69 6E 67                            testing
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">PS&gt; (Get-Content fileRN.txt -raw).Split(<span style="color:#e6db74">&#34;\r\n&#34;</span>) | Format-Hex
+<span style="color:#75715e">#          Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 73 6F 6D 65 0D 0A 74 65 73 74 69 6E 67 0D 0A    some��testing��</span>
 
-PS&gt; (Get-Content fileRN.txt -raw) -split &#34;\n&#34; | Format-Hex
-#           Offset Bytes                                           Ascii
-#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-#          ------ ----------------------------------------------- -----
-#0000000000000000 73 6F 6D 65 0D                                  some�         # that \r is still there
-#         Offset Bytes                                           Ascii
-#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-#          ------ ----------------------------------------------- -----
-#0000000000000000 74 65 73 74 69 6E 67 0D                         testing�      # that \r is still there
+PS&gt; (Get-Content fileRN.txt -raw).Split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`r`n</span><span style="color:#e6db74">&#34;</span>) | Format-Hex
+<span style="color:#75715e">#          Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 73 6F 6D 65                                     some</span>
+<span style="color:#75715e">#          Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 74 65 73 74 69 6E 67                            testing</span>
+</code></pre></div><h2 id="regexes-yeeeeea">Regexes, yeeeeea <a href="#regexes-yeeeeea" class="anchor">🔗</a></h2><p><em>Operator <code>-split</code> uses regexes under the hood. Don&rsquo;t forget that.</em></p>
+<p>No magic here. Works as expected. That <code> `n</code> is just a one concrete char. That&rsquo;s it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">PS&gt; (Get-Content fileRN.txt -raw) -split <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`r`n</span><span style="color:#e6db74">&#34;</span> | Format-Hex
+<span style="color:#75715e">#           Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 73 6F 6D 65                                     some</span>
+<span style="color:#75715e">#          Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 74 65 73 74 69 6E 67                            testing</span>
+
+PS&gt; (Get-Content fileRN.txt -raw) -split <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">&#34;</span> | Format-Hex
+<span style="color:#75715e">#          Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 73 6F 6D 65 0D                                  some�        # that `r is still there</span>
+<span style="color:#75715e">#         Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 74 65 73 74 69 6E 67 0D                         testing�     # that `r is still there</span>
+</code></pre></div><p>The same applies for <code>\r\n</code> used as regex literals. They just work.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">PS&gt; (Get-Content fileRN.txt -raw) -split <span style="color:#e6db74">&#34;\r\n&#34;</span> | Format-Hex
+<span style="color:#75715e">#          Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 73 6F 6D 65                                     some</span>
+<span style="color:#75715e">#         Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 74 65 73 74 69 6E 67                            testing</span>
+
+PS&gt; (Get-Content fileRN.txt -raw) -split <span style="color:#e6db74">&#34;\n&#34;</span> | Format-Hex
+<span style="color:#75715e">#           Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 73 6F 6D 65 0D                                  some�         # that \r is still there</span>
+<span style="color:#75715e">#         Offset Bytes                                           Ascii</span>
+<span style="color:#75715e">#                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+<span style="color:#75715e">#          ------ ----------------------------------------------- -----</span>
+<span style="color:#75715e">#0000000000000000 74 65 73 74 69 6E 67 0D                         testing�      # that \r is still there</span>
 </code></pre></div>
     </div>
 

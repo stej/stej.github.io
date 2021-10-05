@@ -73,83 +73,83 @@
     <div class="content">
       <p>Dealing with <code>$null</code>s in PowerShell is quite tricky sometimes. Or better - it was. Has that changed?</p>
 <p>Let&rsquo;s create some a helper function first that can describe the passed object. Simple, but good enough for this blog post.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function dumpobj {
-    param($obj)
-    function dumpit {
-        param($o, $indent)
-        if ($null -eq $o) {
-            Write-Host (&#34;  &#34; * $indent) &#39;null&#39;
-        } elseif ($o -is [array]) {
-            Write-Host (&#34;  &#34; * $indent) &#39;Array: count=&#39; $o.Count
-            for ($i = 0; $i -lt $o.Count; $i++) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell"><span style="color:#66d9ef">function</span> dumpobj {
+    <span style="color:#66d9ef">param</span>($obj)
+    <span style="color:#66d9ef">function</span> dumpit {
+        <span style="color:#66d9ef">param</span>($o, $indent)
+        <span style="color:#66d9ef">if</span> ($null <span style="color:#f92672">-eq</span> $o) {
+            Write-Host (<span style="color:#e6db74">&#34;  &#34;</span> * $indent) <span style="color:#e6db74">&#39;null&#39;</span>
+        } <span style="color:#66d9ef">elseif</span> ($o <span style="color:#f92672">-is</span> <span style="color:#66d9ef">[array]</span>) {
+            Write-Host (<span style="color:#e6db74">&#34;  &#34;</span> * $indent) <span style="color:#e6db74">&#39;Array: count=&#39;</span> $o.Count
+            <span style="color:#66d9ef">for</span> ($i = 0; $i <span style="color:#f92672">-lt</span> $o.Count; $i++) {
                 dumpit $o[$i] ($indent+1)
             }
-        } elseif ($o -is [int] -or $o -is [int64] -or $o -is [uint] -or $o -is [uint64]) {
-            Write-Host (&#34;  &#34; * $indent) &#34;$($o.GetType().Name):&#34; $o
+        } <span style="color:#66d9ef">elseif</span> ($o <span style="color:#f92672">-is</span> <span style="color:#66d9ef">[int]</span> <span style="color:#f92672">-or</span> $o <span style="color:#f92672">-is</span> <span style="color:#66d9ef">[int64]</span> <span style="color:#f92672">-or</span> $o <span style="color:#f92672">-is</span> <span style="color:#66d9ef">[uint]</span> <span style="color:#f92672">-or</span> $o <span style="color:#f92672">-is</span> <span style="color:#66d9ef">[uint64]</span>) {
+            Write-Host (<span style="color:#e6db74">&#34;  &#34;</span> * $indent) <span style="color:#e6db74">&#34;</span>$($o.GetType().Name)<span style="color:#e6db74">:&#34;</span> $o
         }
     }
     dumpit $obj 0
 }
-dumpobj 1           # Int32: 1
-dumpobj 1,2         # Array: count= 2
-                    #    Int32: 1
-                    #    Int32: 2
-dumpobj $null       # null
-dumpobj 1,$null     # Array: count= 2
-                    #    Int32: 1
-                    #    null
-dumpobj (,$null)    # Array: count= 1
-                    #    null
+dumpobj 1           <span style="color:#75715e"># Int32: 1</span>
+dumpobj 1,2         <span style="color:#75715e"># Array: count= 2</span>
+                    <span style="color:#75715e">#    Int32: 1</span>
+                    <span style="color:#75715e">#    Int32: 2</span>
+dumpobj $null       <span style="color:#75715e"># null</span>
+dumpobj 1,$null     <span style="color:#75715e"># Array: count= 2</span>
+                    <span style="color:#75715e">#    Int32: 1</span>
+                    <span style="color:#75715e">#    null</span>
+dumpobj (,$null)    <span style="color:#75715e"># Array: count= 1</span>
+                    <span style="color:#75715e">#    null</span>
 </code></pre></div><p>If we don&rsquo;t return anything, we basically return <code>$null</code>. Not empty array, or some <em>default</em>. Just <code>$null</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function returnIfBig { 
-    param($num) 
-    if ($num -ge 1000) { 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell"><span style="color:#66d9ef">function</span> returnIfBig { 
+    <span style="color:#66d9ef">param</span>($num) 
+    <span style="color:#66d9ef">if</span> ($num <span style="color:#f92672">-ge</span> 1000) { 
         $num
     }
 }
 $containsNothing = returnIfBig 10
 $containsNumber = returnIfBig 1000
 
-dumpobj $containsNothing   # null
-dumpobj $containsNumber    # Int32: 1000
+dumpobj $containsNothing   <span style="color:#75715e"># null</span>
+dumpobj $containsNumber    <span style="color:#75715e"># Int32: 1000</span>
 </code></pre></div><p>Note that it&rsquo;s pretty tricky when we try to return at least something! We return empty array, but &hellip; nothing is returned in fact. Still <code>$null</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function returnEmptyArray { @() }
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell"><span style="color:#66d9ef">function</span> returnEmptyArray { @() }
 $ea = returnEmptyArray
-dumpobj $ea                 # null !
+dumpobj $ea                 <span style="color:#75715e"># null !</span>
 </code></pre></div><p>That&rsquo;s retarted behaviour, indeed. If we really want to return empty array, we have to wrap that like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function returnEmptyArray { ,@() }
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell"><span style="color:#66d9ef">function</span> returnEmptyArray { ,@() }
 $ea = returnEmptyArray
-dumpobj $ea                 # Array: count= 0
+dumpobj $ea                 <span style="color:#75715e"># Array: count= 0</span>
 </code></pre></div><p>This behaviour was pretty bad <em>in the past</em>.</p>
 <p>If you wanted to return something and then iterate via e.g. <code>ForEach-Object</code>. If you just
 stored the result in a variable and maybe later wanted to ensure that it&rsquo;s an array by wrapping in <code>@( ..... )</code>, you sometimes
 got just an array that was equal to <code>@($null)</code>. And later If you iterated over that array, there was one iteration with value equal to <code>$null</code>.
 Not fun.</p>
 <p>So where we are now&hellip; ?</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function returnEmptyArray { @() } 
-$ea = returnEmptyArray                      # null
-$big        = $ea | ? { $_ -gt 100 }        # null
-$bigInArray = @($ea | ? { $_ -gt 100 })     # Array: count= 0
-$bigWrapped = @($big)                       # Array: count= 0
-$bigInArrayWrapped = @($bigInArray)         # Array: count= 0
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell"><span style="color:#66d9ef">function</span> returnEmptyArray { @() } 
+$ea = returnEmptyArray                      <span style="color:#75715e"># null</span>
+$big        = $ea | ? { $_ <span style="color:#f92672">-gt</span> 100 }        <span style="color:#75715e"># null</span>
+$bigInArray = @($ea | ? { $_ <span style="color:#f92672">-gt</span> 100 })     <span style="color:#75715e"># Array: count= 0</span>
+$bigWrapped = @($big)                       <span style="color:#75715e"># Array: count= 0</span>
+$bigInArrayWrapped = @($bigInArray)         <span style="color:#75715e"># Array: count= 0</span>
 
-$ea  | % { throw &#34;I&#39;m in&#34; }                 # doesn&#39;t throw, that&#39;s OK
-$big | % { throw &#34;I&#39;m in&#34; }                 # doesn&#39;t throw, that&#39;s OK
-$bigInArray | % { throw &#34;I&#39;m in&#34; }          # doesn&#39;t throw, that&#39;s OK
-$bigWrapped | % { throw &#34;I&#39;m in&#34; }          # doesn&#39;t throw, that&#39;s OK
-$bigInArrayWrapped | % { throw &#34;I&#39;m in&#34; }   # doesn&#39;t throw, that&#39;s OK
+$ea  | % { <span style="color:#66d9ef">throw</span> <span style="color:#e6db74">&#34;I&#39;m in&#34;</span> }                 <span style="color:#75715e"># doesn&#39;t throw, that&#39;s OK</span>
+$big | % { <span style="color:#66d9ef">throw</span> <span style="color:#e6db74">&#34;I&#39;m in&#34;</span> }                 <span style="color:#75715e"># doesn&#39;t throw, that&#39;s OK</span>
+$bigInArray | % { <span style="color:#66d9ef">throw</span> <span style="color:#e6db74">&#34;I&#39;m in&#34;</span> }          <span style="color:#75715e"># doesn&#39;t throw, that&#39;s OK</span>
+$bigWrapped | % { <span style="color:#66d9ef">throw</span> <span style="color:#e6db74">&#34;I&#39;m in&#34;</span> }          <span style="color:#75715e"># doesn&#39;t throw, that&#39;s OK</span>
+$bigInArrayWrapped | % { <span style="color:#66d9ef">throw</span> <span style="color:#e6db74">&#34;I&#39;m in&#34;</span> }   <span style="color:#75715e"># doesn&#39;t throw, that&#39;s OK</span>
 </code></pre></div><p>It looks like the behaviour from the past is fixed already. Or maybe I don&rsquo;t remember the gotcha case anymore 😁</p>
 <p>But still. PowerShell handles <code>$null</code>s with magic sometimes:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ea = returnEmptyArray
-$null -eq $ea                   # true
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">$ea = returnEmptyArray
+$null <span style="color:#f92672">-eq</span> $ea                   <span style="color:#75715e"># true</span>
 
-$arrayFromEA = @($ea)           # null
-$arrayFromReallNull = @($null)  # Array: count= 1
-                                #   null
+$arrayFromEA = @($ea)           <span style="color:#75715e"># null</span>
+$arrayFromReallNull = @($null)  <span style="color:#75715e"># Array: count= 1</span>
+                                <span style="color:#75715e">#   null</span>
 </code></pre></div><p>Obviously if we make an array from variable that is equal to <code>$null</code>, <code>$null</code> is returned.
 Also note that iterating over that is different:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$arrayFromEA | % { throw &#34;I&#39;m in&#34; }         # doesn&#39;t throw, that&#39;s OK
-$arrayFromReallNull | % { throw &#34;I&#39;m in&#34; }  # DOES throw !
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">$arrayFromEA | % { <span style="color:#66d9ef">throw</span> <span style="color:#e6db74">&#34;I&#39;m in&#34;</span> }         <span style="color:#75715e"># doesn&#39;t throw, that&#39;s OK</span>
+$arrayFromReallNull | % { <span style="color:#66d9ef">throw</span> <span style="color:#e6db74">&#34;I&#39;m in&#34;</span> }  <span style="color:#75715e"># DOES throw !</span>
 </code></pre></div>
     </div>
 

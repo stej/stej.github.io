@@ -77,83 +77,83 @@
 But if you try to look for that string via fulltext search in the directory (<code>C:\Users\.....\Modules\oh-my-posh\5.6.4\</code>), you will find it in some weird binaries.</p>
 <p>That&rsquo;s right. All the magic is hidden in the binary file. It&rsquo;s <code>bin\posh-windows-amd64.exe</code> in my case. The binary itself is written in go, look <a href="https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/src/main.go" target="_blank" rel="noopener">here</a>. And then if you would like to
 find the script with <code>$prompt</code> function, simply run that like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">posh-windows-amd64.exe -shell pwsh -print-init &gt; init.ps1
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">posh-windows-amd64.exe -shell pwsh -print-init &gt; init.ps1
 </code></pre></div><p>and you get this code:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback"># Powershell doesn&#39;t default to UTF8 just yet, so we&#39;re forcing it as there are too many problems
-# that pop up when we don&#39;t
-[console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
-$env:POWERLINE_COMMAND = &#34;oh-my-posh&#34;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell"><span style="color:#75715e"># Powershell doesn&#39;t default to UTF8 just yet, so we&#39;re forcing it as there are too many problems</span>
+<span style="color:#75715e"># that pop up when we don&#39;t</span>
+<span style="color:#66d9ef">[console]</span>::InputEncoding = <span style="color:#66d9ef">[console]</span>::OutputEncoding = New-Object System.Text.UTF8Encoding
+$env:POWERLINE_COMMAND = <span style="color:#e6db74">&#34;oh-my-posh&#34;</span>
 $env:CONDA_PROMPT_MODIFIER = $false
 
 ....
 
-[ScriptBlock]$Prompt = {
-    #store if the last command was successful
+<span style="color:#66d9ef">[ScriptBlock]</span>$Prompt = {
+    <span style="color:#75715e">#store if the last command was successful</span>
     $lastCommandSuccess = $?
-    #store the last exit code for restore
+    <span style="color:#75715e">#store the last exit code for restore</span>
     $realLASTEXITCODE = $global:LASTEXITCODE
-    $omp = &#34;C:/Users/j.stefan/OneDrive - Quadient/Documents/PowerShell/Modules/oh-my-posh/5.6.4/bin/posh-windows-amd64.exe&#34;
+    $omp = <span style="color:#e6db74">&#34;C:/Users/j.stefan/OneDrive - Quadient/Documents/PowerShell/Modules/oh-my-posh/5.6.4/bin/posh-windows-amd64.exe&#34;</span>
     $config, $cleanPWD, $cleanPSWD = Get-PoshContext
-    if ($global:PoshSettings.Transient -eq $true) {
-        $standardOut = @(&amp;$omp --pwd=&#34;$cleanPWD&#34; --pswd=&#34;$cleanPSWD&#34; --config=&#34;$config&#34; --print-transient 2&gt;&amp;1)
-        $standardOut -join &#34;`n&#34;
+    <span style="color:#66d9ef">if</span> ($global:PoshSettings.Transient <span style="color:#f92672">-eq</span> $true) {
+        $standardOut = @(&amp;$omp --pwd=<span style="color:#e6db74">&#34;$cleanPWD&#34;</span> --pswd=<span style="color:#e6db74">&#34;$cleanPSWD&#34;</span> --config=<span style="color:#e6db74">&#34;$config&#34;</span> --print-transient 2&gt;&amp;1)
+        $standardOut -join <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">&#34;</span>
         $global:PoshSettings.Transient = $false
-        return
+        <span style="color:#66d9ef">return</span>
     }
     $errorCode = 0
     Initialize-ModuleSupport
     Set-PoshContext
-    if ($lastCommandSuccess -eq $false) {
-        #native app exit code
-        if ($realLASTEXITCODE -is [int] -and $realLASTEXITCODE -gt 0) {
+    <span style="color:#66d9ef">if</span> ($lastCommandSuccess <span style="color:#f92672">-eq</span> $false) {
+        <span style="color:#75715e">#native app exit code</span>
+        <span style="color:#66d9ef">if</span> ($realLASTEXITCODE <span style="color:#f92672">-is</span> <span style="color:#66d9ef">[int]</span> <span style="color:#f92672">-and</span> $realLASTEXITCODE <span style="color:#f92672">-gt</span> 0) {
             $errorCode = $realLASTEXITCODE
         }
-        else {
+        <span style="color:#66d9ef">else</span> {
             $errorCode = 1
         }
     }
 
-    # read stack count from current stack(if invoked from profile=right value,otherwise use the global variable set in Set-PoshPrompt(stack scoped to module))
+    <span style="color:#75715e"># read stack count from current stack(if invoked from profile=right value,otherwise use the global variable set in Set-PoshPrompt(stack scoped to module))</span>
     $stackCount = (Get-Location -stack).Count
-    try {
-        if ($global:omp_global_sessionstate -ne $null) {
-            $stackCount = ($global:omp_global_sessionstate).path.locationstack(&#39;&#39;).count
+    <span style="color:#66d9ef">try</span> {
+        <span style="color:#66d9ef">if</span> ($global:omp_global_sessionstate <span style="color:#f92672">-ne</span> $null) {
+            $stackCount = ($global:omp_global_sessionstate).path.locationstack(<span style="color:#e6db74">&#39;&#39;</span>).count
         }
     }
-    catch {}
+    <span style="color:#66d9ef">catch</span> {}
 
     $executionTime = -1
     $history = Get-History -ErrorAction Ignore -Count 1
-    if ($null -ne $history -and $null -ne $history.EndExecutionTime -and $null -ne $history.StartExecutionTime -and $global:omp_lastHistoryId -ne $history.Id) {
+    <span style="color:#66d9ef">if</span> ($null <span style="color:#f92672">-ne</span> $history <span style="color:#f92672">-and</span> $null <span style="color:#f92672">-ne</span> $history.EndExecutionTime <span style="color:#f92672">-and</span> $null <span style="color:#f92672">-ne</span> $history.StartExecutionTime <span style="color:#f92672">-and</span> $global:omp_lastHistoryId <span style="color:#f92672">-ne</span> $history.Id) {
         $executionTime = ($history.EndExecutionTime - $history.StartExecutionTime).TotalMilliseconds
         $global:omp_lastHistoryId = $history.Id
     }
-    $standardOut = @(&amp;$omp --error=&#34;$errorCode&#34; --pwd=&#34;$cleanPWD&#34; --pswd=&#34;$cleanPSWD&#34; --execution-time=&#34;$executionTime&#34; --stack-count=&#34;$stackCount&#34; --config=&#34;$config&#34; 2&gt;&amp;1)
-    # make sure PSReadLine knows we have a multiline prompt
+    $standardOut = @(&amp;$omp --error=<span style="color:#e6db74">&#34;$errorCode&#34;</span> --pwd=<span style="color:#e6db74">&#34;$cleanPWD&#34;</span> --pswd=<span style="color:#e6db74">&#34;$cleanPSWD&#34;</span> --execution-time=<span style="color:#e6db74">&#34;$executionTime&#34;</span> --stack-count=<span style="color:#e6db74">&#34;$stackCount&#34;</span> --config=<span style="color:#e6db74">&#34;$config&#34;</span> 2&gt;&amp;1)
+    <span style="color:#75715e"># make sure PSReadLine knows we have a multiline prompt</span>
     $extraLines = $standardOut.Count - 1
-    if ($extraLines -gt 0) {
+    <span style="color:#66d9ef">if</span> ($extraLines <span style="color:#f92672">-gt</span> 0) {
         Set-PSReadlineOption -ExtraPromptLineCount $extraLines
     }
-    # the output can be multiline, joining these ensures proper rendering by adding line breaks with `n
-    $standardOut -join &#34;`n&#34;
+    <span style="color:#75715e"># the output can be multiline, joining these ensures proper rendering by adding line breaks with `n</span>
+    $standardOut -join <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">&#34;</span>
     $global:LASTEXITCODE = $realLASTEXITCODE
-    #remove temp variables
-    Remove-Variable realLASTEXITCODE -Confirm:$false
-    Remove-Variable lastCommandSuccess -Confirm:$false
+    <span style="color:#75715e">#remove temp variables</span>
+    Remove-Variable realLASTEXITCODE -Confirm<span style="color:#960050;background-color:#1e0010">:</span>$false
+    Remove-Variable lastCommandSuccess -Confirm<span style="color:#960050;background-color:#1e0010">:</span>$false
 }
 
 ....
 
-function global:Enable-PoshTooltips {
+<span style="color:#66d9ef">function</span> <span style="color:#66d9ef">global:</span>Enable-PoshTooltips {
     Set-PSReadlineKeyHandler -Key SpaceBar -ScriptBlock {
-        [Microsoft.PowerShell.PSConsoleReadLine]::Insert(&#39; &#39;)
+        <span style="color:#66d9ef">[Microsoft.PowerShell.PSConsoleReadLine]</span>::Insert(<span style="color:#e6db74">&#39; &#39;</span>)
         $position = $host.UI.RawUI.CursorPosition
-        $omp = &#34;C:/Users/j.stefan/OneDrive - Quadient/Documents/PowerShell/Modules/oh-my-posh/5.6.4/bin/posh-windows-amd64.exe&#34;
+        $omp = <span style="color:#e6db74">&#34;C:/Users/j.stefan/OneDrive - Quadient/Documents/PowerShell/Modules/oh-my-posh/5.6.4/bin/posh-windows-amd64.exe&#34;</span>
         $config, $cleanPWD, $cleanPSWD = Get-PoshContext
         $command = $null
         $cursor = $null
-        [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$command, [ref]$cursor)
-        $standardOut = @(&amp;$omp --pwd=&#34;$cleanPWD&#34; --pswd=&#34;$cleanPSWD&#34; --config=&#34;$config&#34; --command=&#34;$command&#34; 2&gt;&amp;1)
+        <span style="color:#66d9ef">[Microsoft.PowerShell.PSConsoleReadLine]</span>::GetBufferState(<span style="color:#66d9ef">[ref]</span>$command, <span style="color:#66d9ef">[ref]</span>$cursor)
+        $standardOut = @(&amp;$omp --pwd=<span style="color:#e6db74">&#34;$cleanPWD&#34;</span> --pswd=<span style="color:#e6db74">&#34;$cleanPSWD&#34;</span> --config=<span style="color:#e6db74">&#34;$config&#34;</span> --command=<span style="color:#e6db74">&#34;$command&#34;</span> 2&gt;&amp;1)
         Write-Host $standardOut -NoNewline
         $host.UI.RawUI.CursorPosition = $position
     }
@@ -173,16 +173,16 @@ function global:Enable-PoshTooltips {
 </li>
 <li>
 <p>add this to your profile:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&#34;tooltips&#34;: [
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON"><span style="color:#e6db74">&#34;tooltips&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
     {
-    &#34;type&#34;: &#34;command&#34;,
-    &#34;tips&#34;: [&#34;btc&#34;, &#34;b&#34;],
-    &#34;style&#34;: &#34;diamond&#34;,
-    &#34;foreground&#34;: &#34;black&#34;,
-    &#34;background&#34;: &#34;green&#34;,
-    &#34;properties&#34;: {
-        &#34;shell&#34;: &#34;bash&#34;,
-        &#34;command&#34;: &#34; curl \&#34;https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&amp;vs_currencies=usd\&#34; -s &#34;
+    <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;command&#34;</span>,
+    <span style="color:#f92672">&#34;tips&#34;</span>: [<span style="color:#e6db74">&#34;btc&#34;</span>, <span style="color:#e6db74">&#34;b&#34;</span>],
+    <span style="color:#f92672">&#34;style&#34;</span>: <span style="color:#e6db74">&#34;diamond&#34;</span>,
+    <span style="color:#f92672">&#34;foreground&#34;</span>: <span style="color:#e6db74">&#34;black&#34;</span>,
+    <span style="color:#f92672">&#34;background&#34;</span>: <span style="color:#e6db74">&#34;green&#34;</span>,
+    <span style="color:#f92672">&#34;properties&#34;</span>: {
+        <span style="color:#f92672">&#34;shell&#34;</span>: <span style="color:#e6db74">&#34;bash&#34;</span>,
+        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34; curl \&#34;https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&amp;vs_currencies=usd\&#34; -s &#34;</span>
     }
 }]
 </code></pre></div></li>

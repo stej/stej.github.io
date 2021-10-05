@@ -11,7 +11,7 @@ Dealing with `$null`s in PowerShell is quite tricky sometimes. Or better - it wa
 
 Let's create some a helper function first that can describe the passed object. Simple, but good enough for this blog post.
 
-```
+```PowerShell
 function dumpobj {
     param($obj)
     function dumpit {
@@ -43,7 +43,7 @@ dumpobj (,$null)    # Array: count= 1
 
 If we don't return anything, we basically return `$null`. Not empty array, or some *default*. Just `$null`.
 
-```
+```PowerShell
 function returnIfBig { 
     param($num) 
     if ($num -ge 1000) { 
@@ -59,7 +59,7 @@ dumpobj $containsNumber    # Int32: 1000
 
 Note that it's pretty tricky when we try to return at least something! We return empty array, but ... nothing is returned in fact. Still `$null`.
 
-```
+```PowerShell
 function returnEmptyArray { @() }
 $ea = returnEmptyArray
 dumpobj $ea                 # null !
@@ -67,7 +67,7 @@ dumpobj $ea                 # null !
 
 That's retarted behaviour, indeed. If we really want to return empty array, we have to wrap that like this:
 
-```
+```PowerShell
 function returnEmptyArray { ,@() }
 $ea = returnEmptyArray
 dumpobj $ea                 # Array: count= 0
@@ -82,7 +82,7 @@ Not fun.
 
 So where we are now... ?
 
-```
+```PowerShell
 function returnEmptyArray { @() } 
 $ea = returnEmptyArray                      # null
 $big        = $ea | ? { $_ -gt 100 }        # null
@@ -101,7 +101,7 @@ It looks like the behaviour from the past is fixed already. Or maybe I don't rem
 
 But still. PowerShell handles `$null`s with magic sometimes:
 
-```
+```PowerShell
 $ea = returnEmptyArray
 $null -eq $ea                   # true
 
@@ -113,7 +113,7 @@ $arrayFromReallNull = @($null)  # Array: count= 1
 Obviously if we make an array from variable that is equal to `$null`, `$null` is returned.
 Also note that iterating over that is different:
 
-```
+```PowerShell
 $arrayFromEA | % { throw "I'm in" }         # doesn't throw, that's OK
 $arrayFromReallNull | % { throw "I'm in" }  # DOES throw !
 ```

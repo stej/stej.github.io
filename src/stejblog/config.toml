@@ -17,7 +17,18 @@ twitter = "https://twitter.com/stejcz"
 # More info= https://gohugo.io/getting-started/configuration-markup#
 [markup]
   [markup.highlight]
-    guessSyntax = true
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ''
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = 'monokai'
+    tabWidth = 4
+    #guessSyntax = true
   [markup.tableOfContents]
     endLevel = 3
     ordered = false

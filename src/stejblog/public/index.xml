@@ -36,7 +36,7 @@ function dumpobj { param($obj) function dumpit { param($o, $indent) if ($null -e
       <guid>https://stej.github.io/posts/20210921_powershellandlineendings/</guid>
       <description>In short:
  CR is the escape character \r (carriage return, 0x0D, 13 in decimal) LF is the escape character \n (line feed, 0x0A, 10 in decimal)  First let&amp;rsquo;s make two files for testing. One file with CRLF and one with LF.
-PS&amp;gt; mkdir c:\temp\ -EA SilentlyContinue PS&amp;gt; cd c:\temp PS&amp;gt; ([byte[]][char[]]&amp;#34;some&amp;#34;) + ([byte[]] (13,10)) + ([byte[]][char[]]&amp;#34;testing&amp;#34;) | Set-Content fileCrLf.txt -asByte PS&amp;gt; ([byte[]][char[]]&amp;#34;some&amp;#34;) + [byte]10 + ([byte[]][char[]]&amp;#34;testing&amp;#34;) | Set-Content fileLf.</description>
+mkdir c:\temp\ -EA SilentlyContinue cd c:\temp ([byte[]][char[]]&amp;#34;some&amp;#34;) + ([byte[]] (13,10)) + ([byte[]][char[]]&amp;#34;testing&amp;#34;) | Set-Content fileCrLf.txt -asByte ([byte[]][char[]]&amp;#34;some&amp;#34;) + [byte]10 + ([byte[]][char[]]&amp;#34;testing&amp;#34;) | Set-Content fileLf.txt -asByte Is there any difference when reading the file?</description>
     </item>
     
     <item>
