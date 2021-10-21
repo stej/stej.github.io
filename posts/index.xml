@@ -6,7 +6,18 @@
     <description>Recent content in Posts on Random silence. Random thoughts here. Random content. Random silence again. You know what pudding is?</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 15 Oct 2021 20:30:31 +0200</lastBuildDate><atom:link href="https://stej.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 21 Oct 2021 18:45:52 +0200</lastBuildDate><atom:link href="https://stej.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Computing portfolio performance again</title>
+      <link>https://stej.github.io/posts/20211021_portfolioperformance2/</link>
+      <pubDate>Thu, 21 Oct 2021 18:45:52 +0200</pubDate>
+      
+      <guid>https://stej.github.io/posts/20211021_portfolioperformance2/</guid>
+      <description>Last time I posted some thoughts about how to compute your gains/loses. It worked well for some samples, but failed for others. Problems were caused in situations when there were some big gains.
+Let&amp;rsquo;s have a sample:
+# 12 12 /------------------------------------------------------------ # / | | |\ # 10 10 ------------------------------------/ | | | \ # / | | | | \ # 8 8 -------------/ | | | 8 | \ ---------------------- # / | | | | |\ # / | | | | | | \ # 5 --------/ | | | | | 5 | \----------- # | | | | | | | # | | | | | | | # | | | | | | | # BUY in $ 1k 1k 1k 0k 2k 5k 0k # SELL in $ 0k 0k 0k 2k 0k 0 0k # COINS 1k/5 = 200C + 1k/8C 325C + 1k/10 C 425C - 2k/12C = 258c + 2K/12 = 425C + 5k/12 = 841C # I HAVE = 200C = 325C = 425C = 258C 425C 841C # GAINS % # (LOSES) 0 325*8(gained)/ 425*10/3000*100-100 (2000+258*12)/3000*100-100 (2000+425*12)/5000*100-100 (2000+841*12)/10000*100-100 (2000+841*8)/10k*100-100 # 2000(spent $)*100-100= = 41.</description>
+    </item>
+    
     <item>
       <title>Naive thoughts about computing portfolio performance</title>
       <link>https://stej.github.io/posts/20211015_portfolioperformance/</link>
